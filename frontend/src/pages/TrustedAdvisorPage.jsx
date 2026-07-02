@@ -11,7 +11,7 @@ const CATEGORY_LABELS = {
   performance: 'Performance', fault_tolerance: 'Fault Tolerance', service_limits: 'Service Limits',
 }
 const CATEGORY_COLORS = {
-  security: '#EF4444', cost_optimizing: '#6366F1', performance: '#06B6D4',
+  security: '#EF4444', cost_optimizing: '#F97316', performance: '#06B6D4',
   fault_tolerance: '#F59E0B', service_limits: '#8B5CF6',
 }
 

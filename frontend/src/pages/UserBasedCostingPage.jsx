@@ -5,7 +5,7 @@ import { useUserCostMetrics, useUserCostDetail } from '../hooks/useQueries'
 import { PageHeader, LoadingSpinner, EmptyState, ErrorBanner } from '../components/Common'
 import { formatCost, timeAgo } from '../utils/formatters'
 
-const COLORS = ['#6366F1', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899']
+const COLORS = ['#F97316', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899']
 const ALL_ROLES = ['All Roles', 'Admin', 'Developer', 'DevOps', 'Data Team', 'QA', 'Viewer']
 
 export default function UserBasedCostingPage() {
@@ -98,7 +98,7 @@ export default function UserBasedCostingPage() {
                       </div>
                     </div>
                   </td>
-                  <td><span style={{ background: 'rgba(99,102,241,0.1)', color: '#6366F1', borderRadius: 5, padding: '2px 8px', fontSize: 11, fontWeight: 700 }}>{u.role}</span></td>
+                  <td><span style={{ background: 'rgba(99,102,241,0.1)', color: '#F97316', borderRadius: 5, padding: '2px 8px', fontSize: 11, fontWeight: 700 }}>{u.role}</span></td>
                   <td style={{ fontFamily: 'Orbitron, monospace', color: 'var(--accent)', fontWeight: 700, fontSize: 13 }}>{formatCost(u.totalCost)}</td>
                   <td><span className="pill cyan">{u.topService}</span></td>
                   <td style={{ fontSize: 12, color: 'var(--text-muted)' }}>{u.lastActive ? timeAgo(u.lastActive) : '—'}</td>
@@ -153,7 +153,7 @@ export default function UserBasedCostingPage() {
                       <XAxis dataKey="month" tick={{ fontSize: 11, fill: 'var(--text-muted)' }} />
                       <YAxis tick={{ fontSize: 11, fill: 'var(--text-muted)' }} tickFormatter={v => `$${v}`} />
                       <Tooltip formatter={(v) => formatCost(v)} contentStyle={{ background: 'var(--bg-surface)', border: '1px solid var(--border)', borderRadius: 8 }} />
-                      <Line type="monotone" dataKey="cost" stroke="#6366F1" strokeWidth={2} dot={{ fill: '#6366F1', r: 4 }} />
+                      <Line type="monotone" dataKey="cost" stroke="#F97316" strokeWidth={2} dot={{ fill: '#F97316', r: 4 }} />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : <EmptyState message="No trend data" />}

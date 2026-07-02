@@ -8,7 +8,7 @@ import { useApiCostMetrics } from '../hooks/useQueries'
 import { PageHeader, LoadingSpinner, EmptyState, ErrorBanner } from '../components/Common'
 import { formatCost } from '../utils/formatters'
 
-const COLORS = ['#6366F1', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#14B8A6', '#F97316', '#84CC16']
+const COLORS = ['#F97316', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#14B8A6', '#F97316', '#84CC16']
 const STATUS_CONFIG = {
   optimised:    { label: 'Optimised',    color: '#10B981', bg: 'rgba(16,185,129,0.12)' },
   needs_review: { label: 'Needs Review', color: '#F59E0B', bg: 'rgba(245,158,11,0.12)' },

@@ -199,15 +199,15 @@ export default function CloudWatchPage() {
                   <AreaChart data={metricData}>
                     <defs>
                       <linearGradient id="metricGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#6366F1" stopOpacity={0.2} />
-                        <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
+                        <stop offset="5%" stopColor="#F97316" stopOpacity={0.2} />
+                        <stop offset="95%" stopColor="#F97316" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                     <XAxis dataKey="timestamp" stroke="var(--text-muted)" tick={{ fontSize: 10 }} />
                     <YAxis stroke="var(--text-muted)" tick={{ fontSize: 11 }} />
                     <Tooltip content={<CustomTooltip />} />
-                    <Area type="monotone" dataKey="value" stroke="#6366F1" strokeWidth={2} fill="url(#metricGrad)" />
+                    <Area type="monotone" dataKey="value" stroke="#F97316" strokeWidth={2} fill="url(#metricGrad)" />
                     {selectedAlarm.threshold && (
                       <ReferenceLine y={selectedAlarm.threshold} stroke="#EF4444" strokeDasharray="5 5" label={{ value: 'Threshold', fill: '#EF4444', fontSize: 11 }} />
                     )}

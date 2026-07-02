@@ -7,7 +7,7 @@ import { useRoleCosts, useRoleCostDetail } from '../hooks/useQueries'
 import { PageHeader, LoadingSpinner, EmptyState, ErrorBanner } from '../components/Common'
 import { formatCost } from '../utils/formatters'
 
-const COLORS = ['#6366F1', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899']
+const COLORS = ['#F97316', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899']
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
 
 export default function RoleBasedCostingPage() {

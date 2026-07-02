@@ -57,7 +57,7 @@ export function Header() {
     } catch {}
   }
 
-  const title = PAGE_TITLES[location.pathname] || 'CloudSense'
+  const title = PAGE_TITLES[location.pathname] || 'CostForge'
   const initials = user?.name ? user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) : '?'
 
   return (

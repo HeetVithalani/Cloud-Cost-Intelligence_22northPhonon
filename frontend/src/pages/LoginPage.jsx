@@ -176,8 +176,8 @@ export default function LoginPage() {
         {/* Logo */}
         <div className="login-logo">
           <div className="login-logo-icon"><Zap size={24} /></div>
-          <h1>CloudSense</h1>
-          <p>Cloud Cost Intelligence Platform</p>
+          <h1>CostForge</h1>
+          <p>Smarter Costs. Stronger Future.</p>
         </div>
 
         {/* View tabs for login/register */}
@@ -207,7 +207,7 @@ export default function LoginPage() {
           <form onSubmit={handleLogin}>
             <div style={fg}>
               <label style={lbl}>Email</label>
-              <input style={inp} type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="admin@cloudsense.io" required autoFocus />
+              <input style={inp} type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@company.com" required autoFocus />
             </div>
             <div style={fg}>
               <label style={lbl}>Password</label>

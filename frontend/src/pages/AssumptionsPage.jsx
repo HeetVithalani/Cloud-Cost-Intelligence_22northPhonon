@@ -18,14 +18,14 @@ export default function AssumptionsPage() {
     <div className="fade-in">
       <div style={{ marginBottom: 24 }}>
         <h2 style={{ margin: '0 0 4px', fontSize: 22, fontWeight: 800 }}>Key Assumptions</h2>
-        <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 13 }}>Design decisions and constraints for the CloudSense hackathon submission</p>
+        <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: 13 }}>Design decisions and constraints for the CostForge hackathon submission</p>
       </div>
 
       {/* Summary */}
       <div className="card no-hover" style={{ marginBottom: 24, padding: '18px 22px', borderLeft: '4px solid var(--accent)' }}>
         <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 6, color: 'var(--accent)' }}>📋 Hackathon Context — Challenge 5: Cloud Cost Intelligence</div>
         <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-          CloudSense is a cloud cost intelligence platform designed for rapidly growing SaaS companies. It analyses infrastructure usage across EC2, RDS, Lambda, and S3, then surfaces actionable savings recommendations with estimated monthly impact. Built as a complete working MVP within a 48-hour window.
+          CostForge is a cloud cost intelligence platform designed for rapidly growing SaaS companies. It analyses infrastructure usage across EC2, RDS, Lambda, and S3, then surfaces actionable savings recommendations with estimated monthly impact. Built as a complete working MVP within a 48-hour window.
         </div>
       </div>
 

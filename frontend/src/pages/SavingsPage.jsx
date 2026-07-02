@@ -4,13 +4,13 @@ import { PageHeader, LoadingSpinner, EmptyState, ErrorBanner } from '../componen
 
 const PRIORITY_ORDER = { High: 0, Medium: 1, Low: 2 }
 const CATEGORY_COLORS = {
-  'Right-Sizing': '#6366F1',
+  'Right-Sizing': '#F97316',
   'Reserved Instances': '#10B981',
   'Idle Resources': '#EF4444',
   'Storage Optimisation': '#F59E0B',
   'Unused Resources': '#EF4444',
   'Network Optimisation': '#06B6D4',
-  'cost_optimizing': '#6366F1',
+  'cost_optimizing': '#F97316',
   'performance': '#06B6D4',
   'security': '#EF4444',
   'fault_tolerance': '#F59E0B',

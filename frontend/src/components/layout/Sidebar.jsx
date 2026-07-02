@@ -65,11 +65,11 @@ export function Sidebar() {
       {/* Logo */}
       <div className="sidebar-logo">
         <div className="logo-icon">
-          <Zap size={18} color="white" />
+          <BarChart3 size={18} color="white" />
         </div>
         <div className="logo-text-group">
-          <div className="logo-name">CloudSense</div>
-          <div className="logo-sub">Cost Intelligence</div>
+          <div className="logo-name">CostForge</div>
+          <div className="logo-sub">Smarter Costs</div>
         </div>
       </div>
 

@@ -4,7 +4,7 @@ import { useEC2, useRDS, useLambdaFns } from '../hooks/useQueries'
 import { ExportableChart, ResourceUtilBarChart } from '../components/Charts'
 import { PageHeader, LoadingSpinner, EmptyState, ErrorBanner } from '../components/Common'
 
-const TYPE_COLORS = { EC2: '#6366F1', RDS: '#06B6D4', Lambda: '#10B981' }
+const TYPE_COLORS = { EC2: '#F97316', RDS: '#06B6D4', Lambda: '#10B981' }
 const TYPE_ICONS  = { EC2: Server, RDS: Database, Lambda: Zap }
 
 function cpuColor(cpu) {

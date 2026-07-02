@@ -67,15 +67,15 @@ export function CostAreaChart({ data = [], height = 260 }) {
       <AreaChart data={data} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
         <defs>
           <linearGradient id="costGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#6366F1" stopOpacity={0.4} />
-            <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
+            <stop offset="5%" stopColor="#F97316" stopOpacity={0.4} />
+            <stop offset="95%" stopColor="#F97316" stopOpacity={0} />
           </linearGradient>
         </defs>
         <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
         <XAxis dataKey="date" stroke="var(--text-muted)" tick={{ fontSize: 11, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} />
         <YAxis stroke="var(--text-muted)" tick={{ fontSize: 11, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} tickFormatter={v => `$${(v/1000).toFixed(0)}k`} />
         <Tooltip content={<CustomTooltip prefix="$" />} />
-        <Area type="monotone" dataKey="cost" stroke="#6366F1" fill="url(#costGrad)" strokeWidth={2.5} dot={false} activeDot={{ r: 5, fill: '#6366F1', strokeWidth: 0 }} />
+        <Area type="monotone" dataKey="cost" stroke="#F97316" fill="url(#costGrad)" strokeWidth={2.5} dot={false} activeDot={{ r: 5, fill: '#F97316', strokeWidth: 0 }} />
       </AreaChart>
     </ResponsiveContainer>
   )
@@ -153,7 +153,7 @@ export function TopServicesBar({ data = [], height = 260 }) {
         <XAxis type="number" stroke="var(--text-muted)" tick={{ fontSize: 11, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} tickFormatter={v => `$${(v/1000).toFixed(0)}k`} />
         <YAxis type="category" dataKey="name" stroke="var(--text-muted)" tick={{ fontSize: 11, fill: 'var(--text-muted)' }} axisLine={false} tickLine={false} width={120} />
         <Tooltip content={<CustomTooltip prefix="$" />} />
-        <Bar dataKey="monthly" fill="#6366F1" radius={[0, 6, 6, 0]}>
+        <Bar dataKey="monthly" fill="#F97316" radius={[0, 6, 6, 0]}>
           {data.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
         </Bar>
       </BarChart>
@@ -162,7 +162,7 @@ export function TopServicesBar({ data = [], height = 260 }) {
 }
 
 // ── Sparkline ─────────────────────────────────────────────────
-export function SparkLine({ data = [], color = '#6366F1', width = 80, height = 30 }) {
+export function SparkLine({ data = [], color = '#F97316', width = 80, height = 30 }) {
   return (
     <div className="sparkline-container">
       <ResponsiveContainer width={width} height={height}>

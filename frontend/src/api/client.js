@@ -12,13 +12,13 @@ const API_BASE = import.meta.env.VITE_API_URL
 if (!API_BASE) {
   if (import.meta.env.DEV) {
     throw new Error(
-      '[CloudSense] VITE_API_URL is not set.\n' +
+      '[CostForge] VITE_API_URL is not set.\n' +
       'Create frontend/.env.development with:\n' +
       '  VITE_API_URL=http://localhost:3001'
     )
   } else {
     console.error(
-      '[CloudSense] WARNING: VITE_API_URL is not set in production build. ' +
+      '[CostForge] WARNING: VITE_API_URL is not set in production build. ' +
       'Falling back to /api — ensure Nginx proxies /api to your backend.'
     )
   }
