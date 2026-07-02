@@ -64,9 +64,11 @@ export function Sidebar() {
     <aside className={`sidebar ${isCollapsed ? 'collapsed' : ''}`}>
       {/* Logo */}
       <div className="sidebar-logo">
-        <div className="logo-icon">
-          <BarChart3 size={18} color="white" />
-        </div>
+        <img
+          src="/assets/costforge-logo.jpeg"
+          alt="CostForge"
+          className="logo-img"
+        />
         <div className="logo-text-group">
           <div className="logo-name">CostForge</div>
           <div className="logo-sub">Smarter Costs</div>

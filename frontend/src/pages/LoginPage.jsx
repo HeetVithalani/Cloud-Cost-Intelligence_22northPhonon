@@ -175,7 +175,7 @@ export default function LoginPage() {
       <div className="login-card">
         {/* Logo */}
         <div className="login-logo">
-          <div className="login-logo-icon"><Zap size={24} /></div>
+          <img src="/assets/costforge-logo.jpeg" alt="CostForge" className="login-logo-img" />
           <h1>CostForge</h1>
           <p>Smarter Costs. Stronger Future.</p>
         </div>
