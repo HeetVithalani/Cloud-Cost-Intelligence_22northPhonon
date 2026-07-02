@@ -16,7 +16,7 @@ const STATUS_CONFIG = {
 }
 
 export default function ApiBasedCostingPage() {
-  const { data: apis, isLoading, error } = useApiCostMetrics()
+  const { data: apis, isLoading, error, refetch } = useApiCostMetrics()
   const [serviceFilter, setServiceFilter] = useState('All')
   const [statusFilter, setStatusFilter] = useState('All')
 
@@ -50,7 +50,7 @@ export default function ApiBasedCostingPage() {
   return (
     <div className="fade-in">
       <PageHeader title="API Based Costing" subtitle="Cost analysis for API endpoints and service calls" />
-      <ErrorBanner error={error} />
+      <ErrorBanner error={error} onRetry={refetch} />
 
       {/* KPI Cards */}
       <div className="kpi-grid" style={{ marginBottom: 24 }}>

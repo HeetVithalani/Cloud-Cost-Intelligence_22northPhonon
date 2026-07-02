@@ -9,7 +9,7 @@ const COLORS = ['#6366F1', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'
 const ALL_ROLES = ['All Roles', 'Admin', 'Developer', 'DevOps', 'Data Team', 'QA', 'Viewer']
 
 export default function UserBasedCostingPage() {
-  const { data: users, isLoading, error } = useUserCostMetrics()
+  const { data: users, isLoading, error, refetch } = useUserCostMetrics()
   const [search, setSearch] = useState('')
   const [roleFilter, setRoleFilter] = useState('All Roles')
   const [selectedUser, setSelectedUser] = useState(null)
@@ -43,7 +43,7 @@ export default function UserBasedCostingPage() {
   return (
     <div className="fade-in">
       <PageHeader title="User Based Costing" subtitle="Cost attribution per team member" />
-      <ErrorBanner error={error} />
+      <ErrorBanner error={error} onRetry={refetch} />
 
       {/* Search + Filter */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap', alignItems: 'center' }}>

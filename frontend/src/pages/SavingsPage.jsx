@@ -36,7 +36,7 @@ export default function SavingsPage() {
   const [categoryFilter, setCategoryFilter] = useState('all')
   const [priorityFilter, setPriorityFilter] = useState('all')
 
-  // Use real Trusted Advisor data
+  // Use real Trusted Advisor data — if it fails, gracefully degrade
   const { data: advisorData, isLoading, error } = useAdvisor()
   const { data: sampleData } = useSampleData()
 
@@ -72,7 +72,17 @@ export default function SavingsPage() {
           : 'Cost optimisation recommendations based on Trusted Advisor analysis'}
       />
 
-      {error && <ErrorBanner error={error} />}
+      {/* Show error as info notice, not a blocking error */}
+      {error && (
+        <div className="card no-hover" style={{ marginBottom: 16, padding: '12px 18px', borderLeft: '4px solid var(--accent-amber)', background: 'rgba(245,158,11,0.06)' }}>
+          <div style={{ fontSize: 13, color: 'var(--accent-amber)', fontWeight: 700, marginBottom: 4 }}>⚠️ Trusted Advisor unavailable</div>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+            Could not fetch live recommendations. This often happens with AWS Basic Support plans.
+            Ensure IAM permissions include <code style={{ fontFamily: 'monospace' }}>support:DescribeTrustedAdvisorChecks</code> and the backend is running in <code style={{ fontFamily: 'monospace' }}>us-east-1</code>.
+            {recommendations.length > 0 && ' Showing sample recommendations below.'}
+          </div>
+        </div>
+      )}
 
       {/* Basic plan upgrade notice */}
       {advisorData?.supportPlan === 'basic' && advisorData?.upgradeUrl && (

@@ -11,7 +11,7 @@ const COLORS = ['#6366F1', '#06B6D4', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
 
 export default function RoleBasedCostingPage() {
-  const { data: roles, isLoading, error } = useRoleCosts()
+  const { data: roles, isLoading, error, refetch } = useRoleCosts()
   const [selectedRole, setSelectedRole] = useState(null)
   const { data: roleDetail } = useRoleCostDetail(selectedRole)
 
@@ -38,7 +38,7 @@ export default function RoleBasedCostingPage() {
   return (
     <div className="fade-in">
       <PageHeader title="Role Based Costing" subtitle="Cloud cost breakdown attributed to each organisational role" />
-      <ErrorBanner error={error} />
+      <ErrorBanner error={error} onRetry={refetch} />
 
       {/* KPI Cards */}
       <div className="kpi-grid" style={{ marginBottom: 24 }}>

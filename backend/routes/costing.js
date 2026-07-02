@@ -1,12 +1,34 @@
 const router = require('express').Router()
-const { ddbClient, ScanCommand, costClient, GetCostAndUsageCommand } = require('../config/awsClients')
-const { TABLES } = require('../config/constants')
 const { authMiddleware } = require('../middleware/auth')
 const { ok, err } = require('../helpers/response')
-const { getCache, setCache } = require('../helpers/cache')
 const { logger } = require('../helpers/logger')
 const path = require('path')
 const fs = require('fs')
+
+// Safe imports — never crash if module not available
+let ddbClient, ScanCommand, costClient, GetCostAndUsageCommand
+try {
+  const aws = require('../config/awsClients')
+  ddbClient = aws.ddbClient
+  ScanCommand = aws.ScanCommand
+  costClient = aws.costClient
+  GetCostAndUsageCommand = aws.GetCostAndUsageCommand
+} catch (e) {
+  logger.error('AWS clients unavailable in costing routes', { error: e.message })
+}
+
+let TABLES
+try { TABLES = require('../config/constants').TABLES } catch { TABLES = {} }
+
+let getCache, setCache
+try {
+  const cache = require('../helpers/cache')
+  getCache = cache.getCache
+  setCache = cache.setCache
+} catch {
+  getCache = async () => null
+  setCache = async () => {}
+}
 
 // Load sample data fallback
 function getSampleData() {
@@ -16,6 +38,30 @@ function getSampleData() {
   } catch { return {} }
 }
 
+// Safe DynamoDB scan — never throws
+async function safeScan(tableName, opts = {}) {
+  if (!ddbClient || !tableName) return []
+  try {
+    const { Items } = await ddbClient.send(new ScanCommand({ TableName: tableName, ...opts }))
+    return Items || []
+  } catch (e) {
+    logger.warn(`DynamoDB scan failed for ${tableName}`, { error: e.message })
+    return []
+  }
+}
+
+// Safe Cost Explorer call — never throws
+async function safeCostQuery(params) {
+  if (!costClient) return []
+  try {
+    const { ResultsByTime } = await costClient.send(new GetCostAndUsageCommand(params))
+    return ResultsByTime || []
+  } catch (e) {
+    logger.warn('Cost Explorer query failed', { error: e.message })
+    return []
+  }
+}
+
 // ── GET /api/costing/users — List user cost data ──────────────
 router.get('/users', authMiddleware, async (req, res) => {
   try {
@@ -23,33 +69,31 @@ router.get('/users', authMiddleware, async (req, res) => {
     if (cached) return ok(res, cached)
 
     // Get all users from DynamoDB
-    const { Items: users } = await ddbClient.send(new ScanCommand({ TableName: TABLES.users }))
+    const users = await safeScan(TABLES.users)
 
-    if (!users || users.length === 0) {
+    if (users.length === 0) {
       const sample = getSampleData()
       return ok(res, sample.userCosts || [])
     }
 
     // Try to get cost data per user via tags
     let costByUser = {}
-    try {
-      const now = new Date()
-      const start = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
-      const end = now.toISOString().split('T')[0]
-      const { ResultsByTime } = await costClient.send(new GetCostAndUsageCommand({
-        TimePeriod: { Start: start, End: end },
-        Granularity: 'MONTHLY',
-        Metrics: ['UnblendedCost'],
-        GroupBy: [{ Type: 'TAG', Key: 'user' }],
-      }))
-      for (const t of (ResultsByTime || [])) {
-        for (const g of (t.Groups || [])) {
-          const userName = g.Keys?.[0]?.replace('user$', '') || 'Untagged'
-          costByUser[userName] = (costByUser[userName] || 0) + parseFloat(g.Metrics?.UnblendedCost?.Amount || 0)
-        }
+    const now = new Date()
+    const start = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+    const end = now.toISOString().split('T')[0]
+
+    const results = await safeCostQuery({
+      TimePeriod: { Start: start, End: end },
+      Granularity: 'MONTHLY',
+      Metrics: ['UnblendedCost'],
+      GroupBy: [{ Type: 'TAG', Key: 'user' }],
+    })
+
+    for (const t of results) {
+      for (const g of (t.Groups || [])) {
+        const userName = g.Keys?.[0]?.replace('user$', '') || 'Untagged'
+        costByUser[userName] = (costByUser[userName] || 0) + parseFloat(g.Metrics?.UnblendedCost?.Amount || 0)
       }
-    } catch (e) {
-      logger.warn('Cost by user tag lookup failed, using defaults', { error: e.message })
     }
 
     // Build response
@@ -86,7 +130,6 @@ router.get('/users', authMiddleware, async (req, res) => {
     ok(res, result)
   } catch (e) {
     logger.error('Costing users error', { error: e.message })
-    // Fallback to sample data
     const sample = getSampleData()
     ok(res, sample.userCosts || [])
   }
@@ -96,13 +139,12 @@ router.get('/users', authMiddleware, async (req, res) => {
 router.get('/users/:userId', authMiddleware, async (req, res) => {
   try {
     const userId = req.params.userId
-    const { Items: users } = await ddbClient.send(new ScanCommand({
-      TableName: TABLES.users,
+    const users = await safeScan(TABLES.users, {
       FilterExpression: 'UserID = :id',
       ExpressionAttributeValues: { ':id': userId },
       Limit: 1,
-    }))
-    if (!users?.length) return err(res, 'User not found', 404)
+    })
+    if (!users.length) return err(res, 'User not found', 404)
     const u = users[0]
     ok(res, {
       userId: u.UserID,
@@ -118,7 +160,10 @@ router.get('/users/:userId', authMiddleware, async (req, res) => {
         'Consider using Savings Plans for consistent workloads',
       ],
     })
-  } catch (e) { err(res, e.message) }
+  } catch (e) {
+    logger.error('User cost detail error', { error: e.message })
+    err(res, 'Failed to load user cost detail')
+  }
 })
 
 // ── GET /api/costing/roles — Role cost data ───────────────────
@@ -128,45 +173,43 @@ router.get('/roles', authMiddleware, async (req, res) => {
     if (cached) return ok(res, cached)
 
     // Get users to count per role
-    const { Items: users } = await ddbClient.send(new ScanCommand({ TableName: TABLES.users }))
+    const users = await safeScan(TABLES.users)
     const roleCounts = {}
-    for (const u of (users || [])) {
+    for (const u of users) {
       const role = u.role || 'Viewer'
       roleCounts[role] = (roleCounts[role] || 0) + 1
     }
 
     // Try cost by role tag
     let costByRole = {}
-    try {
-      const now = new Date()
-      const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1)
-      const { ResultsByTime } = await costClient.send(new GetCostAndUsageCommand({
-        TimePeriod: { Start: sixMonthsAgo.toISOString().split('T')[0], End: now.toISOString().split('T')[0] },
-        Granularity: 'MONTHLY',
-        Metrics: ['UnblendedCost'],
-        GroupBy: [{ Type: 'TAG', Key: 'iamrole' }],
-      }))
-      for (const t of (ResultsByTime || [])) {
-        const monthLabel = new Date(t.TimePeriod.Start).toLocaleString('default', { month: 'short' })
-        for (const g of (t.Groups || [])) {
-          const roleName = g.Keys?.[0]?.replace('iamrole$', '') || 'Untagged'
-          if (!costByRole[roleName]) costByRole[roleName] = { monthlyCost: [], totalCost: 0 }
-          const cost = parseFloat(g.Metrics?.UnblendedCost?.Amount || 0)
-          costByRole[roleName].monthlyCost.push({ month: monthLabel, cost })
-          costByRole[roleName].totalCost += cost
-        }
+    const now = new Date()
+    const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 5, 1)
+
+    const results = await safeCostQuery({
+      TimePeriod: { Start: sixMonthsAgo.toISOString().split('T')[0], End: now.toISOString().split('T')[0] },
+      Granularity: 'MONTHLY',
+      Metrics: ['UnblendedCost'],
+      GroupBy: [{ Type: 'TAG', Key: 'iamrole' }],
+    })
+
+    for (const t of results) {
+      const monthLabel = new Date(t.TimePeriod.Start).toLocaleString('default', { month: 'short' })
+      for (const g of (t.Groups || [])) {
+        const roleName = g.Keys?.[0]?.replace('iamrole$', '') || 'Untagged'
+        if (!costByRole[roleName]) costByRole[roleName] = { monthlyCost: [], totalCost: 0 }
+        const cost = parseFloat(g.Metrics?.UnblendedCost?.Amount || 0)
+        costByRole[roleName].monthlyCost.push({ month: monthLabel, cost })
+        costByRole[roleName].totalCost += cost
       }
-    } catch (e) {
-      logger.warn('Cost by role tag lookup failed', { error: e.message })
     }
 
     // Build response using org roles + AWS cost tag roles
     const orgRoles = ['Admin', 'Developer', 'DevOps', 'Data Team', 'QA', 'Viewer']
-    const allRoleNames = new Set([...orgRoles, ...Object.keys(costByRole)])
+    const allRoleNames = new Set([...orgRoles, ...Object.keys(roleCounts), ...Object.keys(costByRole)])
 
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
     const result = [...allRoleNames].map(role => {
       const data = costByRole[role] || {}
-      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
       return {
         role,
         totalCost: data.totalCost || 0,
@@ -190,20 +233,22 @@ router.get('/roles', authMiddleware, async (req, res) => {
 // ── GET /api/costing/roles/:roleName — Role detail ────────────
 router.get('/roles/:roleName', authMiddleware, async (req, res) => {
   try {
-    const roleName = req.params.roleName
-    const { Items: users } = await ddbClient.send(new ScanCommand({
-      TableName: TABLES.users,
+    const roleName = decodeURIComponent(req.params.roleName)
+    const users = await safeScan(TABLES.users, {
       FilterExpression: '#r = :r',
       ExpressionAttributeNames: { '#r': 'role' },
       ExpressionAttributeValues: { ':r': roleName },
-    }))
+    })
     ok(res, {
       role: roleName,
-      users: (users || []).map(u => ({ userId: u.UserID, name: u.name, email: u.email, role: u.role })),
+      users: users.map(u => ({ userId: u.UserID, name: u.name, email: u.email, role: u.role })),
       totalCost: 0,
       serviceBreakdown: [],
     })
-  } catch (e) { err(res, e.message) }
+  } catch (e) {
+    logger.error('Role cost detail error', { error: e.message })
+    ok(res, { role: req.params.roleName, users: [], totalCost: 0, serviceBreakdown: [] })
+  }
 })
 
 // ── GET /api/costing/apis — API cost metrics ──────────────────
@@ -212,37 +257,35 @@ router.get('/apis', authMiddleware, async (req, res) => {
     const cached = await getCache('costing-apis')
     if (cached) return ok(res, cached)
 
-    // Try to get Lambda invocation costs from Cost Explorer
+    // Try to get Lambda / API Gateway costs from Cost Explorer
     let apiData = []
-    try {
-      const now = new Date()
-      const start = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
-      const end = now.toISOString().split('T')[0]
-      const { ResultsByTime } = await costClient.send(new GetCostAndUsageCommand({
-        TimePeriod: { Start: start, End: end },
-        Granularity: 'MONTHLY',
-        Metrics: ['UnblendedCost', 'UsageQuantity'],
-        Filter: {
-          Dimensions: { Key: 'SERVICE', Values: ['AWS Lambda', 'Amazon API Gateway'] }
-        },
-        GroupBy: [{ Type: 'DIMENSION', Key: 'OPERATION' }],
-      }))
-      for (const t of (ResultsByTime || [])) {
-        for (const g of (t.Groups || [])) {
-          const operation = g.Keys?.[0] || 'Unknown'
-          apiData.push({
-            endpoint: operation,
-            service: operation.includes('Lambda') ? 'Lambda' : 'API Gateway',
-            totalCalls: parseInt(g.Metrics?.UsageQuantity?.Amount || 0),
-            avgResponseTime: Math.floor(Math.random() * 300) + 50,
-            costPerCall: 0,
-            totalCost: parseFloat(g.Metrics?.UnblendedCost?.Amount || 0),
-            status: 'optimised',
-          })
-        }
+    const now = new Date()
+    const start = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]
+    const end = now.toISOString().split('T')[0]
+
+    const results = await safeCostQuery({
+      TimePeriod: { Start: start, End: end },
+      Granularity: 'MONTHLY',
+      Metrics: ['UnblendedCost', 'UsageQuantity'],
+      Filter: {
+        Dimensions: { Key: 'SERVICE', Values: ['AWS Lambda', 'Amazon API Gateway'] }
+      },
+      GroupBy: [{ Type: 'DIMENSION', Key: 'OPERATION' }],
+    })
+
+    for (const t of results) {
+      for (const g of (t.Groups || [])) {
+        const operation = g.Keys?.[0] || 'Unknown'
+        apiData.push({
+          endpoint: operation,
+          service: operation.includes('Lambda') ? 'Lambda' : 'API Gateway',
+          totalCalls: parseInt(g.Metrics?.UsageQuantity?.Amount || 0),
+          avgResponseTime: Math.floor(Math.random() * 300) + 50,
+          costPerCall: 0,
+          totalCost: parseFloat(g.Metrics?.UnblendedCost?.Amount || 0),
+          status: 'optimised',
+        })
       }
-    } catch (e) {
-      logger.warn('API cost lookup failed', { error: e.message })
     }
 
     // If no live data, use structured fallback
