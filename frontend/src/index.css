@@ -1434,3 +1434,108 @@ tbody tr:hover td { background: var(--bg-elevated); }
   padding: 2px;
   font-family: 'Space Mono', monospace;
 }
+
+/* ── Table: always scrollable, no overflow ───────────────────── */
+.data-table-wrapper {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.data-table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+/* Wrap table in a scroll container for small screens */
+.data-table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Modal: dark-mode consistent ────────────────────────────── */
+[data-theme="light"] .data-table-wrapper {
+  background: #fff;
+}
+
+/* ── Page header consistent spacing ─────────────────────────── */
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.page-header-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ── Empty state ─────────────────────────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.empty-state-icon { font-size: 40px; margin-bottom: 16px; }
+.empty-state p { font-size: 14px; max-width: 340px; line-height: 1.6; }
+
+/* ── Role Based Costing ──────────────────────────────────────── */
+.role-bar-legend {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+/* ── User Based Costing ──────────────────────────────────────── */
+.user-avatar-lg {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 16px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* ── API Based Costing ───────────────────────────────────────── */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 6px;
+  padding: 3px 9px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ── Responsive: new pages stack nicely on tablet ───────────── */
+@media (max-width: 900px) {
+  .role-charts-grid,
+  .user-detail-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-header-title { font-size: 18px; }
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+}
+

@@ -24,6 +24,7 @@ const advisorRoutes = require('./routes/advisor')
 const alertRoutes = require('./routes/alerts')
 const reportRoutes = require('./routes/reports')
 const sampleDataRoutes = require('./routes/sampleData')
+const costingRoutes = require('./routes/costing')
 
 // ── App Setup ──────────────────────────────────────────────────
 const app = express()
@@ -68,6 +69,7 @@ app.use('/api/advisor', advisorRoutes)
 app.use('/api/alerts', alertRoutes)
 app.use('/api/reports', reportRoutes)
 app.use('/api/sample-data', sampleDataRoutes)
+app.use('/api/costing', costingRoutes)
 
 // Health check — unauthenticated for ALB/ECS probes
 app.get('/api/health', (req, res) => ok(res, { status: 'ok' }))

@@ -32,17 +32,54 @@ async function getIAMRoles() {
           policies.push({ policyName: ap.PolicyName, policyArn: ap.PolicyArn, type: ap.PolicyArn.includes('aws-policy') ? 'AWS Managed' : 'Customer Managed', actions })
         }
       } catch {}
+
+      // Parse trust relationship from AssumeRolePolicyDocument
       const services = new Set()
+      let trustRelationship = []
       if (role.AssumeRolePolicyDocument) {
         try {
           const doc = JSON.parse(decodeURIComponent(role.AssumeRolePolicyDocument))
           for (const s of (doc.Statement || [])) {
             const princ = s.Principal?.Service
-            if (princ) { const svcs = Array.isArray(princ) ? princ : [princ]; svcs.forEach(s => services.add(s.split('.')[0])) }
+            if (princ) {
+              const svcs = Array.isArray(princ) ? princ : [princ]
+              svcs.forEach(svc => {
+                services.add(svc.split('.')[0])
+                trustRelationship.push(svc)
+              })
+            }
+            // Also capture AWS account principals
+            const awsPrinc = s.Principal?.AWS
+            if (awsPrinc) {
+              const arns = Array.isArray(awsPrinc) ? awsPrinc : [awsPrinc]
+              trustRelationship.push(...arns)
+            }
           }
         } catch {}
       }
-      results.push({ id: role.RoleName, roleName: role.RoleName, services: [...services], isOverPrivileged, resourceCount: 0, lastActivity: role.RoleLastUsed?.LastUsedDate, createDate: role.CreateDate })
+
+      // Determine status based on last used
+      let status = 'inactive'
+      if (role.RoleLastUsed?.LastUsedDate) {
+        const daysSinceUsed = (Date.now() - new Date(role.RoleLastUsed.LastUsedDate).getTime()) / (1000 * 60 * 60 * 24)
+        status = daysSinceUsed <= 30 ? 'active' : daysSinceUsed <= 90 ? 'stale' : 'inactive'
+      }
+
+      results.push({
+        id: role.RoleName,
+        roleName: role.RoleName,
+        arn: role.Arn,
+        services: [...services],
+        policies,
+        policyCount: policies.length,
+        trustRelationship,
+        isOverPrivileged,
+        resourceCount: 0,
+        lastActivity: role.RoleLastUsed?.LastUsedDate || null,
+        lastUsedRegion: role.RoleLastUsed?.Region || null,
+        createDate: role.CreateDate,
+        status,
+      })
     }
     return results
   } catch (e) { throw new Error(`IAM error: ${e.message}`) }

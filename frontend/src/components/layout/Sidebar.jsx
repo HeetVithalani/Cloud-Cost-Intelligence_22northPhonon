@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import {
   Layers, DollarSign, Bell, Activity, Server, Shield, CheckCircle, FileText,
   ChevronLeft, ChevronRight, Sun, Moon, Zap, Users, ScrollText,
-  TrendingDown, BarChart3, UserCheck, Code2, BookOpen
+  TrendingDown, BarChart3, UserCheck, Code2
 } from 'lucide-react'
 import { AppContext } from '../../context/AppContext'
 import { AuthContext } from '../../context/AuthContext'
@@ -47,12 +47,7 @@ const NAV_SECTIONS = [
       { to: '/reports', icon: FileText, label: 'Reports' },
     ],
   },
-  {
-    label: 'Documentation',
-    items: [
-      { to: '/api-docs', icon: BookOpen, label: 'API Docs' },
-    ],
-  },
+
 ]
 
 const ADMIN_ITEMS = [

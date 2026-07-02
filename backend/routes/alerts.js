@@ -56,6 +56,75 @@ router.post('/acknowledge/:alertId', authMiddleware, async (req, res) => {
   } catch (e) { err(res, e.message) }
 })
 
+// ── Mark alert as read ────────────────────────────────────────
+router.patch('/:alertId/read', authMiddleware, async (req, res) => {
+  try {
+    const alertId = req.params.alertId
+    const { Items } = await ddbClient.send(new ScanCommand({
+      TableName: TABLES.alerts,
+      FilterExpression: 'AlertID = :id',
+      ExpressionAttributeValues: { ':id': alertId },
+      Limit: 1,
+    }))
+    if (!Items || Items.length === 0) return err(res, 'Alert not found', 404)
+    const alert = Items[0]
+    await ddbClient.send(new UpdateCommand({
+      TableName: TABLES.alerts,
+      Key: { AlertID: alert.AlertID, Timestamp: alert.Timestamp },
+      UpdateExpression: 'SET #s = :s',
+      ExpressionAttributeNames: { '#s': 'status' },
+      ExpressionAttributeValues: { ':s': 'read' },
+    }))
+    ok(res, { read: true })
+  } catch (e) { err(res, e.message) }
+})
+
+// ── Delete alert ──────────────────────────────────────────────
+router.delete('/:alertId', authMiddleware, async (req, res) => {
+  try {
+    const alertId = req.params.alertId
+    const { Items } = await ddbClient.send(new ScanCommand({
+      TableName: TABLES.alerts,
+      FilterExpression: 'AlertID = :id',
+      ExpressionAttributeValues: { ':id': alertId },
+      Limit: 1,
+    }))
+    if (!Items || Items.length === 0) return err(res, 'Alert not found', 404)
+    const alert = Items[0]
+    const { DeleteCommand } = require('@aws-sdk/lib-dynamodb')
+    const deleteCmd = new DeleteCommand({
+      TableName: TABLES.alerts,
+      Key: { AlertID: alert.AlertID, Timestamp: alert.Timestamp },
+    })
+    await ddbClient.send(deleteCmd)
+    ok(res, { deleted: true })
+  } catch (e) { err(res, e.message) }
+})
+
+// ── Mark all alerts as read ───────────────────────────────────
+router.post('/mark-all-read', authMiddleware, async (req, res) => {
+  try {
+    const { Items } = await ddbClient.send(new ScanCommand({
+      TableName: TABLES.alerts,
+      FilterExpression: '#s <> :ack AND #s <> :rd',
+      ExpressionAttributeNames: { '#s': 'status' },
+      ExpressionAttributeValues: { ':ack': 'acknowledged', ':rd': 'read' },
+    }))
+    let updated = 0
+    for (const alert of (Items || [])) {
+      await ddbClient.send(new UpdateCommand({
+        TableName: TABLES.alerts,
+        Key: { AlertID: alert.AlertID, Timestamp: alert.Timestamp },
+        UpdateExpression: 'SET #s = :s',
+        ExpressionAttributeNames: { '#s': 'status' },
+        ExpressionAttributeValues: { ':s': 'read' },
+      }))
+      updated++
+    }
+    ok(res, { updated })
+  } catch (e) { err(res, e.message) }
+})
+
 // ── Create alert rule (Admin only) ────────────────────────────
 router.post('/rules', authMiddleware, requireAdmin, async (req, res) => {
   try {

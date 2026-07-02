@@ -29,8 +29,9 @@ export const useAdminLogs = (filters) => useQuery({ queryKey: ['admin-logs', fil
 // Central sample data fallback — used when live AWS data is empty
 export const useSampleData = () => useQuery({ queryKey: ['sample-data'], queryFn: () => apiClient.get('/sample-data').then(r => r.data.data), retry: 1, staleTime: 60000 })
 
-// New costing pages
-export const useRoleCosts = () => useQuery({ queryKey: ['role-costs'], queryFn: () => apiClient.get('/costs/by-role').then(r => r.data.data), retry: 1 })
-export const useApiCostMetrics = () => useQuery({ queryKey: ['api-cost-metrics'], queryFn: () => apiClient.get('/sample-data').then(r => r.data.data?.apiCosts || []), retry: 1 })
-export const useUserCostMetrics = () => useQuery({ queryKey: ['user-cost-metrics'], queryFn: () => apiClient.get('/sample-data').then(r => r.data.data?.userCosts || []), retry: 1 })
-
+// ── Costing pages — now using dedicated /api/costing/* endpoints ──
+export const useRoleCosts = () => useQuery({ queryKey: ['role-costs'], queryFn: () => apiClient.get('/costing/roles').then(r => r.data.data), retry: 1 })
+export const useRoleCostDetail = (roleName) => useQuery({ queryKey: ['role-cost-detail', roleName], queryFn: () => apiClient.get(`/costing/roles/${encodeURIComponent(roleName)}`).then(r => r.data.data), enabled: !!roleName, retry: 1 })
+export const useUserCostMetrics = () => useQuery({ queryKey: ['user-cost-metrics'], queryFn: () => apiClient.get('/costing/users').then(r => r.data.data), retry: 1 })
+export const useUserCostDetail = (userId) => useQuery({ queryKey: ['user-cost-detail', userId], queryFn: () => apiClient.get(`/costing/users/${encodeURIComponent(userId)}`).then(r => r.data.data), enabled: !!userId, retry: 1 })
+export const useApiCostMetrics = () => useQuery({ queryKey: ['api-cost-metrics'], queryFn: () => apiClient.get('/costing/apis').then(r => r.data.data), retry: 1 })

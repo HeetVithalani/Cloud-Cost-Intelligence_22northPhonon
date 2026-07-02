@@ -1,4 +1,4 @@
-import { useContext, lazy, Suspense } from 'react'
+import { useContext } from 'react'
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
@@ -20,8 +20,10 @@ import UsersPage from './pages/admin/UsersPage'
 import LogsPage from './pages/admin/LogsPage'
 import InfrastructurePage from './pages/InfrastructurePage'
 import SavingsPage from './pages/SavingsPage'
-import ApiDocsPage from './pages/ApiDocsPage'
-import AssumptionsPage from './pages/AssumptionsPage'
+
+import RoleBasedCostingPage from './pages/RoleBasedCostingPage'
+import UserBasedCostingPage from './pages/UserBasedCostingPage'
+import ApiBasedCostingPage from './pages/ApiBasedCostingPage'
 
 function AppShell() {
   const { isAuthenticated } = useContext(AuthContext)
@@ -47,8 +49,10 @@ function AppShell() {
           <Route path="/reports" element={<ReportsPage />} />
           <Route path="/infrastructure" element={<InfrastructurePage />} />
           <Route path="/savings" element={<SavingsPage />} />
-          <Route path="/api-docs" element={<ApiDocsPage />} />
-          <Route path="/assumptions" element={<AssumptionsPage />} />
+
+          <Route path="/role-costing" element={<RoleBasedCostingPage />} />
+          <Route path="/user-costing" element={<UserBasedCostingPage />} />
+          <Route path="/api-costing" element={<ApiBasedCostingPage />} />
           <Route path="/admin/users" element={<UsersPage />} />
           <Route path="/admin/logs" element={<LogsPage />} />
           <Route path="/login" element={<LoginPage />} />
