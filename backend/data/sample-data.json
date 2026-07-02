@@ -1,0 +1,27 @@
+{
+  "totalCost": 0,
+  "mtdCost": 0,
+  "forecast": 0,
+  "dailyAvg": 0,
+  "changePercent": 0,
+  "changeDir": "up",
+  "biggestDriver": "N/A",
+  "costByService": [],
+  "monthlyCost": [],
+  "topExpensiveServices": [],
+  "savingsRecommendations": [],
+  "resourceUtilisation": [],
+  "roleCosts": [
+    { "role": "Admin", "totalCost": 0, "topService": "EC2", "monthlyCost": [0, 0, 0], "savingOpportunity": 0 },
+    { "role": "Developer", "totalCost": 0, "topService": "EC2", "monthlyCost": [0, 0, 0], "savingOpportunity": 0 },
+    { "role": "DevOps", "totalCost": 0, "topService": "Lambda", "monthlyCost": [0, 0, 0], "savingOpportunity": 0 },
+    { "role": "Data Team", "totalCost": 0, "topService": "RDS", "monthlyCost": [0, 0, 0], "savingOpportunity": 0 },
+    { "role": "QA", "totalCost": 0, "topService": "EC2", "monthlyCost": [0, 0, 0], "savingOpportunity": 0 }
+  ],
+  "userCosts": [
+    { "userId": "u001", "name": "Sample User", "email": "user@company.com", "role": "Developer", "totalCost": 0, "topService": "EC2", "lastActive": "", "savingOpportunity": 0, "serviceBreakdown": [], "monthlyCost": [] }
+  ],
+  "apiCosts": [
+    { "endpoint": "/api/dashboard/summary", "service": "Lambda", "totalCalls": 0, "avgResponseTime": 0, "costPerCall": 0, "totalCost": 0, "status": "optimised" }
+  ]
+}
