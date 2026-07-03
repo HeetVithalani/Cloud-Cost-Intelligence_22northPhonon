@@ -1,0 +1,392 @@
+
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+<head>
+<meta charset='utf-8'>
+<title>README</title>
+<style>
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 11pt; color: #333; line-height: 1.4; }
+h1 { color: #1B2A4A; font-size: 18pt; border-bottom: 2px solid #1B2A4A; padding-bottom: 5px; margin-top: 20px; }
+h2 { color: #2C4270; font-size: 14pt; margin-top: 15px; margin-bottom: 5px; }
+h3 { color: #365088; font-size: 12pt; margin-top: 10px; margin-bottom: 5px; }
+p { margin-bottom: 10px; }
+ul, ol { margin-bottom: 10px; }
+li { margin-bottom: 5px; }
+table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+th, td { border: 1px solid #dddddd; text-align: left; padding: 8px; }
+th { background-color: #f2f2f2; }
+pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+code { font-family: monospace; background-color: #f4f4f4; padding: 2px 4px; border-radius: 3px; }
+blockquote { border-left: 4px solid #ccc; margin-left: 0; padding-left: 10px; font-style: italic; color: #666; }
+</style>
+</head>
+<body>
+<h1>CostForge - Cloud Cost Intelligence Dashboard</h1>
+<h3>22North Product Engineering Challenge 2026</h3>
+<h2>Quick Start</h2>
+<ol>
+<li>Clone repo and run <code>npm install</code> in both <code>frontend</code> and <code>backend</code> directories.</li>
+<li>Run <code>npm run seed</code> in the backend directory to populate the test data.</li>
+<li>Run <code>npm run dev</code> in both directories to start the development servers.</li>
+</ol>
+<h2>Live Demo</h2>
+<p><strong>Evaluate the Project Live:</strong> <a href="https://dji1sh2llkd41.cloudfront.net">https://dji1sh2llkd41.cloudfront.net</a></p>
+<h2>Demo Credentials</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Email</th>
+<th>Password</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Admin</td>
+<td><a href="mailto:admin@cloudsense.io">admin@cloudsense.io</a></td>
+<td>Admin@CloudSense123</td>
+</tr>
+<tr>
+<td>Editor</td>
+<td><a href="mailto:d24dce144@charusat.edu.in">d24dce144@charusat.edu.in</a></td>
+<td>D24DCE144@heet</td>
+</tr>
+<tr>
+<td>Viewer</td>
+<td><a href="mailto:heetkv9@gmail.com">heetkv9@gmail.com</a></td>
+<td>Heet@123456</td>
+</tr>
+</tbody></table>
+<h2>Project Overview</h2>
+<h3>Problem Statement</h3>
+<p>Rapidly growing SaaS companies struggle with unpredictable and opaque cloud infrastructure costs, leading to wasted spend and budget overruns. Existing tools are often too complex, lack granular visibility at the user or API level, and fail to provide actionable, easy-to-understand optimization recommendations.</p>
+<h3>Solution</h3>
+<p>CostForge is a unified cloud cost intelligence platform that provides granular cost attribution down to the user and API endpoint levels. It leverages AWS Cost Explorer and Trusted Advisor APIs to deliver real-time infrastructure visibility, anomaly detection alerts, and actionable savings recommendations in an intuitive, FinOps-friendly dashboard.</p>
+<blockquote>
+<p><strong>Important for Evaluators:</strong> The comprehensive competition submission document (containing Architecture, DFD, ER Diagrams, Deployment steps, and Test data) is located at:
+📄 <a href="file:///d:/Desktop/Cloud-Cost-Intelligence_22northPhonon/docs/Final_Submission_Document.doc">docs/Final_Submission_Document.doc</a> (Times New Roman format)
+📄 <a href="file:///d:/Desktop/Cloud-Cost-Intelligence_22northPhonon/docs/Final_Submission_Document.md">docs/Final_Submission_Document.md</a> (Markdown format)</p>
+</blockquote>
+<h2>📌 Features</h2>
+<ul>
+<li><strong>Granular Cost Attribution</strong>: Track costs by AWS Service, organizational Role, specific Users, and individual API endpoints.</li>
+<li><strong>Actionable Savings</strong>: Direct integration with AWS Trusted Advisor to surface concrete cost-saving opportunities.</li>
+<li><strong>Smart Alerting</strong>: Configure custom cost thresholds and receive alerts when spending anomalies are detected.</li>
+<li><strong>Automated Reporting</strong>: Generate on-demand or scheduled PDF/CSV cost reports for stakeholders.</li>
+<li><strong>IAM Role Exploration</strong>: Audit and monitor AWS IAM roles directly from the dashboard.</li>
+<li><strong>CloudWatch Log Insights</strong>: Integrated querying for monitoring system health and application logs.</li>
+<li><strong>Role-Based Access Control</strong>: Secure platform with granular permissions for Admins, Editors, and Viewers.</li>
+<li><strong>Dark/Light Theme</strong>: Modern, responsive UI with a premium dark mode designed for FinOps engineers.</li>
+</ul>
+<h2>Technology Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Technology</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Frontend</td>
+<td>React (Vite)</td>
+<td>18.x</td>
+</tr>
+<tr>
+<td>Backend</td>
+<td>Node.js / Express</td>
+<td>18.x / 4.x</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>DynamoDB (AWS SDK v3)</td>
+<td>v3</td>
+</tr>
+<tr>
+<td>Serverless</td>
+<td>AWS Lambda</td>
+<td>Node.js 20.x</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Amazon S3 &amp; CloudFront</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>Charts</td>
+<td>Recharts</td>
+<td>2.12.x</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>JWT &amp; bcrypt</td>
+<td>N/A</td>
+</tr>
+</tbody></table>
+<h2>Architecture</h2>
+<p>CostForge uses a decoupled microservices architecture with a React SPA frontend hosted on S3 and CloudFront, and a Node.js REST API backend on EC2. It leverages AWS DynamoDB for high-performance, serverless data storage and integrates with various AWS services (Cost Explorer, Trusted Advisor, CloudWatch, Lambda).
+<a href="/docs/02_architecture">See full architecture docs</a></p>
+<h2>Installation &amp; Run Instructions</h2>
+<pre><code class="language-bash">git clone &lt;repository-url&gt;
+cd Cloud-Cost-Intelligence_22northPhonon
+
+# Backend setup
+cd backend
+npm install
+cp .env.example .env
+
+# Frontend setup
+cd ../frontend
+npm install
+cp .env.example .env
+
+# Start apps
+cd ../backend &amp;&amp; npm run dev
+cd ../frontend &amp;&amp; npm run dev
+</code></pre>
+<h2>Deployment Instructions</h2>
+<p>The application is deployed across several AWS services for a highly scalable, serverless-hybrid architecture:</p>
+<ol>
+<li><strong>Frontend (CloudFront + S3):</strong><ul>
+<li>The React app is built using <code>npm run build</code>.</li>
+<li>The static assets are uploaded to an S3 bucket configured for static hosting.</li>
+<li>An Amazon CloudFront distribution serves the assets globally via HTTPS (see Live Demo link).</li>
+</ul>
+</li>
+<li><strong>Backend (EC2):</strong><ul>
+<li>The Node.js Express API is deployed on an Ubuntu EC2 instance.</li>
+<li>It is managed using <code>pm2</code> (<code>pm2 start server.js</code>) to ensure it runs continuously.</li>
+<li>Nginx is configured as a reverse proxy to route API traffic securely.</li>
+</ul>
+</li>
+<li><strong>Database (DynamoDB):</strong><ul>
+<li>All user data, active alerts, and cached AWS cost telemetry are stored in Amazon DynamoDB.</li>
+</ul>
+</li>
+<li><strong>Reports (Lambda + S3):</strong><ul>
+<li>Background jobs for generating PDF/CSV cost reports are handled securely by AWS Lambda and stored in a private S3 bucket.</li>
+</ul>
+</li>
+</ol>
+<p><em>(For a full step-by-step technical deployment guide, see <a href="file:///d:/Desktop/Cloud-Cost-Intelligence_22northPhonon/docs/AWS_Deployment_Guide.doc">docs/AWS_Deployment_Guide.doc</a> or <a href="file:///d:/Desktop/Cloud-Cost-Intelligence_22northPhonon/docs/AWS_Deployment_Guide.md">docs/AWS_Deployment_Guide.md</a>)</em></p>
+<h2>Seeding Initial Credentials</h2>
+<p>Because CostForge fetches live cost and IAM data directly from your configured AWS Account, there is no mock test data required. The seed script simply creates the three demo user credentials in your DynamoDB table.</p>
+<pre><code class="language-bash">cd backend
+npm run seed
+</code></pre>
+<h2>Challenge Requirements Documentation</h2>
+<h1>API Reference Summary</h1>
+<p>The CostForge RESTful API provides endpoints for authentication, user management, and cloud cost telemetry. All data is returned in JSON format. Authenticated routes require a valid JWT token.</p>
+<h2>Auth Endpoints</h2>
+<ul>
+<li><code>POST /api/auth/register</code> - Register a new user</li>
+<li><code>POST /api/auth/login</code> - Authenticate and receive JWT</li>
+<li><code>POST /api/auth/logout</code> - Terminate session</li>
+<li><code>POST /api/auth/send-otp</code> - Password recovery verification</li>
+<li><code>POST /api/auth/verify-otp</code> - Validate OTP</li>
+<li><code>POST /api/auth/forgot-password</code> - Initiate password reset</li>
+<li><code>POST /api/auth/reset-password</code> - Finalize password reset</li>
+<li><code>GET /api/auth/me</code> - Get current authenticated user profile</li>
+</ul>
+<h2>User Endpoints</h2>
+<ul>
+<li><code>GET /api/users/profile</code> - Fetch user profile details</li>
+<li><code>PUT /api/users/profile</code> - Update user profile information</li>
+<li><code>PATCH /api/users/change-password</code> - Update user password securely</li>
+</ul>
+<h2>Admin Endpoints</h2>
+<ul>
+<li><code>GET /api/admin/users</code> - List all registered users</li>
+<li><code>POST /api/admin/users</code> - Create a new user (Admin only)</li>
+<li><code>DELETE /api/admin/users/:id</code> - Remove a user</li>
+<li><code>PATCH /api/admin/users/:id/status</code> - Activate/Deactivate a user account</li>
+<li><code>PATCH /api/admin/users/:id/role</code> - Modify user permissions (Admin/Editor/Viewer)</li>
+<li><code>GET /api/admin/logs</code> - Fetch system audit logs</li>
+<li><code>GET /api/admin/logs?userId=&amp;startDate=&amp;endDate=</code> - Query specific audit trails</li>
+</ul>
+<h2>Cost Endpoints</h2>
+<ul>
+<li><code>GET /api/cost/summary</code> - High-level aggregated spend</li>
+<li><code>GET /api/cost/by-service</code> - Spend broken down by AWS service</li>
+<li><code>GET /api/cost/monthly-trend</code> - Historical trending data</li>
+</ul>
+<hr>
+<h1>Assumptions for CostForge</h1>
+<p>The design and development of CostForge are based on the following key assumptions. These assumptions guide the architectural decisions, feature prioritization, and testing strategies.</p>
+<ol>
+<li><strong>Live AWS Integration Assumed:</strong> The application is deployed live and relies on real-time integration with the user&#39;s actual AWS account via the AWS SDK to fetch billing telemetry and Trusted Advisor insights. No mock or dummy cost data is used.</li>
+<li><strong>AWS Account Configuration:</strong> It is assumed that the target AWS account has AWS Cost Explorer enabled and contains active usage data to be queried.</li>
+<li><strong>Single Region Deployment Assumed:</strong> The initial deployment architecture assumes hosting and operation within a single AWS region (e.g., us-east-1). Multi-region high availability or disaster recovery is not in scope for the initial release.</li>
+<li><strong>English Language Only:</strong> The user interface, documentation, and notifications are designed exclusively in English. Localization and internationalization (i18n) are not currently planned for the initial rollout.</li>
+<li><strong>Modern Browser Support Assumed:</strong> The web application targets modern, evergreen web browsers (latest versions of Chrome, Firefox, Safari, Edge). Support for legacy browsers (e.g., Internet Explorer) is explicitly excluded.</li>
+<li><strong>Email Delivery via SES Assumed Available:</strong> It is assumed that the AWS Simple Email Service (SES) environment is properly configured, out of the sandbox mode, and capable of reliably delivering transactional emails without excessive throttling.</li>
+<li><strong>Role Hierarchy Assumptions:</strong> The system assumes a standard Role-Based Access Control (RBAC) model with predefined, fixed roles (e.g., Admin, Editor, Viewer) that cover all necessary permission scopes without the immediate need for custom role creation.</li>
+<li><strong>Cost Calculation Methodology Assumptions:</strong> The platform assumes standard, unblended rates for cost calculations directly fetched from Cost Explorer. Complex discount structures like Enterprise Discount Programs (EDP) or custom negotiated rates are handled natively by AWS before the data hits our API.</li>
+<li><strong>AWS Support Plan Tier Assumed:</strong> It is assumed the target AWS accounts being analyzed possess at least the AWS Business Support plan, granting access to the necessary programmatic APIs (e.g., AWS Trusted Advisor API) required for deeper insights and recommendations.</li>
+</ol>
+<hr>
+<h1>Known Limitations of CostForge</h1>
+<p>This document outlines the known limitations of the CostForge platform. We maintain this list to provide full transparency and to guide future engineering efforts.</p>
+<h3>1. Lack of Multi-Cloud Support</h3>
+<ul>
+<li><strong>What:</strong> The platform currently only analyzes and reports on Amazon Web Services (AWS) costs.</li>
+<li><strong>Why:</strong> Initial project scope was tightly focused on delivering deep value for the most prominent cloud provider to ensure time-to-market and high-quality insights.</li>
+<li><strong>Impact:</strong> Organizations utilizing a multi-cloud strategy (e.g., AWS + Azure + GCP) cannot view their unified cloud spend in a single dashboard.</li>
+<li><strong>Resolution:</strong> Multi-cloud ingestion modules are planned for a future major release (Phase 3), starting with Microsoft Azure.</li>
+</ul>
+<h3>2. Real-Time Cost Updates Are Not Supported</h3>
+<ul>
+<li><strong>What:</strong> Cost data is updated on a batch schedule (typically daily) rather than in real-time.</li>
+<li><strong>Why:</strong> AWS Cost and Usage Reports (CUR) and the Cost Explorer API inherently have a delay (often 24-48 hours) in finalizing billing data.</li>
+<li><strong>Impact:</strong> Users cannot see the financial impact of infrastructure changes made within the last few hours.</li>
+<li><strong>Resolution:</strong> We will investigate integrating with AWS EventBridge and CloudTrail for near real-time resource creation events to provide estimated &quot;run-rate&quot; updates, though finalized billing will always have a delay.</li>
+</ul>
+<h3>3. Limited Custom Role Creation</h3>
+<ul>
+<li><strong>What:</strong> Users are restricted to predefined roles (Admin, Finance, User) and cannot create granular, custom permission sets.</li>
+<li><strong>Why:</strong> To accelerate initial development and reduce the complexity of the security matrix, a strict predefined Role-Based Access Control (RBAC) model was implemented.</li>
+<li><strong>Impact:</strong> Large enterprise clients may find the predefined roles too broad or restrictive for their specific departmental needs.</li>
+<li><strong>Resolution:</strong> An Advanced Permissions module utilizing Attribute-Based Access Control (ABAC) is slated for Phase 2 development.</li>
+</ul>
+<h3>4. No Mobile Application</h3>
+<ul>
+<li><strong>What:</strong> CostForge does not have a dedicated native mobile application (iOS/Android).</li>
+<li><strong>Why:</strong> Resources were allocated to building a robust backend and a responsive web application as the primary interfaces for data-dense dashboards.</li>
+<li><strong>Impact:</strong> On-the-go monitoring is reliant on the responsive web design, which may not be as seamless as a native app for complex chart interactions.</li>
+<li><strong>Resolution:</strong> The web application is designed to be mobile-responsive. If user demand dictates, a lightweight companion mobile app for alerts and basic overviews will be considered.</li>
+</ul>
+<h3>5. Historical Data Retention Limits</h3>
+<ul>
+<li><strong>What:</strong> Detailed, resource-level cost data is only retained for 12 months.</li>
+<li><strong>Why:</strong> Storing highly granular time-series data indefinitely in DynamoDB incurs significant storage costs and impacts query performance.</li>
+<li><strong>Impact:</strong> Year-over-year comparisons beyond a 12-month window are limited to aggregated, high-level data rather than resource-specific trends.</li>
+<li><strong>Resolution:</strong> Implement a data lifecycle policy to archive older granular data to cold storage (AWS S3 Glacier) where it can be queried asynchronously if needed.</li>
+</ul>
+<hr>
+<h1>Future Enhancements &amp; Roadmap for CostForge</h1>
+<p>This document outlines the strategic roadmap for CostForge, structured by deployment phases.</p>
+<h2>Roadmap Overview</h2>
+<h3>Phase 1 (Next Sprint)</h3>
+<p>Focuses on immediate quality-of-life improvements and essential functional gaps identified during initial rollout.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Feature</th>
+<th align="left">Business Value</th>
+<th align="left">Effort</th>
+<th align="left">Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Custom Alert Thresholds</strong></td>
+<td align="left">Allows users to set specific budget limits and receive notifications, preventing bill shock.</td>
+<td align="left">Medium</td>
+<td align="left">High</td>
+</tr>
+<tr>
+<td align="left"><strong>Export to CSV/PDF</strong></td>
+<td align="left">Enables finance teams to easily share reports and integrate data with external accounting software.</td>
+<td align="left">Low</td>
+<td align="left">High</td>
+</tr>
+<tr>
+<td align="left"><strong>Dark Mode UI</strong></td>
+<td align="left">Improves user experience and accessibility for engineers monitoring dashboards in low-light environments.</td>
+<td align="left">Low</td>
+<td align="left">Medium</td>
+</tr>
+<tr>
+<td align="left"><strong>Resource Tag Mapping</strong></td>
+<td align="left">Provides better cost allocation by automatically categorizing untagged resources based on naming conventions.</td>
+<td align="left">Medium</td>
+<td align="left">High</td>
+</tr>
+</tbody></table>
+<h3>Phase 2 (Next Month)</h3>
+<p>Focuses on expanding the platform&#39;s analytical capabilities and enterprise readiness.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Feature</th>
+<th align="left">Business Value</th>
+<th align="left">Effort</th>
+<th align="left">Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Custom RBAC Roles</strong></td>
+<td align="left">Unlocks enterprise adoption by allowing granular, departmental-specific access control.</td>
+<td align="left">High</td>
+<td align="left">High</td>
+</tr>
+<tr>
+<td align="left"><strong>Anomaly Detection (Basic)</strong></td>
+<td align="left">Automatically flags unusual spending spikes using statistical thresholds, reducing manual monitoring.</td>
+<td align="left">High</td>
+<td align="left">High</td>
+</tr>
+<tr>
+<td align="left"><strong>Reserved Instance Recommendations</strong></td>
+<td align="left">Provides actionable insights on purchasing RIs/Savings Plans to reduce compute costs.</td>
+<td align="left">High</td>
+<td align="left">Medium</td>
+</tr>
+<tr>
+<td align="left"><strong>SSO / SAML Integration</strong></td>
+<td align="left">Streamlines onboarding and enhances security for corporate users via Azure AD or Okta.</td>
+<td align="left">Medium</td>
+<td align="left">High</td>
+</tr>
+</tbody></table>
+<h3>Phase 3 (Next Quarter)</h3>
+<p>Focuses on major architectural expansions and advanced AI-driven features.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Feature</th>
+<th align="left">Business Value</th>
+<th align="left">Effort</th>
+<th align="left">Priority</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Multi-Cloud Support (Azure)</strong></td>
+<td align="left">Expands total addressable market by supporting hybrid and multi-cloud enterprise environments.</td>
+<td align="left">Very High</td>
+<td align="left">High</td>
+</tr>
+<tr>
+<td align="left"><strong>AI Cost Forecasting</strong></td>
+<td align="left">Uses machine learning models to accurately predict future spend based on historical seasonal trends.</td>
+<td align="left">High</td>
+<td align="left">Medium</td>
+</tr>
+<tr>
+<td align="left"><strong>Automated Remediation</strong></td>
+<td align="left">Allows users to authorize the platform to automatically shut down idle non-production resources.</td>
+<td align="left">Very High</td>
+<td align="left">Low</td>
+</tr>
+<tr>
+<td align="left"><strong>Data Archival to S3 Glacier</strong></td>
+<td align="left">Reduces database costs while allowing long-term retention of granular data for compliance.</td>
+<td align="left">Medium</td>
+<td align="left">Medium</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>AI Tools Used in CostForge</h1>
+<p>During the development of CostForge, several AI-powered assistants were utilized to enhance productivity and accelerate the delivery timeline.</p>
+<h2>Statement of Use</h2>
+<blockquote>
+<p>All AI tools were used as engineering assistants. All engineering decisions, architecture choices, and design decisions were made by the developer. AI tools accelerated implementation and documentation.</p>
+</blockquote>
+<h2>Tools Utilized</h2>
+<ul>
+<li><strong>Claude:</strong> Utilized primarily for generating complex technical documentation, refining architectural designs, and brainstorming edge cases in data modeling.</li>
+<li><strong>ChatGPT:</strong> Used for quick syntax lookups, debugging complex regex patterns, and drafting initial project management structures.</li>
+<li><strong>Antigravity:</strong> Used as an autonomous coding agent to rapidly audit, refactor, and generate robust end-to-end documentation across the repository.</li>
+</ul>
+<h2>License</h2>
+<p>MIT</p>
+
+</body>
+</html>

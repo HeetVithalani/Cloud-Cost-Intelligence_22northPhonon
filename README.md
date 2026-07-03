@@ -24,7 +24,11 @@ Rapidly growing SaaS companies struggle with unpredictable and opaque cloud infr
 ### Solution
 CostForge is a unified cloud cost intelligence platform that provides granular cost attribution down to the user and API endpoint levels. It leverages AWS Cost Explorer and Trusted Advisor APIs to deliver real-time infrastructure visibility, anomaly detection alerts, and actionable savings recommendations in an intuitive, FinOps-friendly dashboard.
 
-## Key Features
+> **Important for Evaluators:** The comprehensive competition submission document (containing Architecture, DFD, ER Diagrams, Deployment steps, and Test data) is located at:
+> 📄 [docs/Final_Submission_Document.doc](file:///d:/Desktop/Cloud-Cost-Intelligence_22northPhonon/docs/Final_Submission_Document.doc) (Times New Roman format)
+> 📄 [docs/Final_Submission_Document.md](file:///d:/Desktop/Cloud-Cost-Intelligence_22northPhonon/docs/Final_Submission_Document.md) (Markdown format)
+
+## 📌 Features
 - **Granular Cost Attribution**: Track costs by AWS Service, organizational Role, specific Users, and individual API endpoints.
 - **Actionable Savings**: Direct integration with AWS Trusted Advisor to surface concrete cost-saving opportunities.
 - **Smart Alerting**: Configure custom cost thresholds and receive alerts when spending anomalies are detected.
@@ -47,11 +51,11 @@ CostForge is a unified cloud cost intelligence platform that provides granular c
 
 ## Architecture
 CostForge uses a decoupled microservices architecture with a React SPA frontend hosted on S3 and CloudFront, and a Node.js REST API backend on EC2. It leverages AWS DynamoDB for high-performance, serverless data storage and integrates with various AWS services (Cost Explorer, Trusted Advisor, CloudWatch, Lambda).
-[See full architecture docs](/docs/02_architecture)
+
 
 ## Installation & Run Instructions
 ```bash
-git clone <repository-url>
+git clone https://github.com/HeetVithalani/Cloud-Cost-Intelligence_22northPhonon.git
 cd Cloud-Cost-Intelligence_22northPhonon
 
 # Backend setup
@@ -85,7 +89,7 @@ The application is deployed across several AWS services for a highly scalable, s
 4. **Reports (Lambda + S3):**
    - Background jobs for generating PDF/CSV cost reports are handled securely by AWS Lambda and stored in a private S3 bucket.
 
-*(For a full step-by-step technical deployment guide, see `docs/05_deployment/deployment_instructions.md`)*
+*(For a full step-by-step technical deployment guide, see [docs/AWS_Deployment_Guide.doc](file:///d:/Desktop/Cloud-Cost-Intelligence_22northPhonon/docs/AWS_Deployment_Guide.doc) or [docs/AWS_Deployment_Guide.md](file:///d:/Desktop/Cloud-Cost-Intelligence_22northPhonon/docs/AWS_Deployment_Guide.md))*
 
 ## Seeding Initial Credentials
 Because CostForge fetches live cost and IAM data directly from your configured AWS Account, there is no mock test data required. The seed script simply creates the three demo user credentials in your DynamoDB table.
@@ -239,3 +243,8 @@ During the development of CostForge, several AI-powered assistants were utilized
 * **Claude:** Utilized primarily for generating complex technical documentation, refining architectural designs, and brainstorming edge cases in data modeling.
 * **ChatGPT:** Used for quick syntax lookups, debugging complex regex patterns, and drafting initial project management structures.
 * **Antigravity:** Used as an autonomous coding agent to rapidly audit, refactor, and generate robust end-to-end documentation across the repository.
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 289be63 (Documentation Update)
