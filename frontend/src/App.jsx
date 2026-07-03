@@ -22,7 +22,6 @@ import InfrastructurePage from './pages/InfrastructurePage'
 import SavingsPage from './pages/SavingsPage'
 
 import RoleBasedCostingPage from './pages/RoleBasedCostingPage'
-import UserBasedCostingPage from './pages/UserBasedCostingPage'
 import ApiBasedCostingPage from './pages/ApiBasedCostingPage'
 
 function AppShell() {
@@ -51,7 +50,6 @@ function AppShell() {
           <Route path="/savings" element={<SavingsPage />} />
 
           <Route path="/role-costing" element={<RoleBasedCostingPage />} />
-          <Route path="/user-costing" element={<UserBasedCostingPage />} />
           <Route path="/api-costing" element={<ApiBasedCostingPage />} />
           <Route path="/admin/users" element={<UsersPage />} />
           <Route path="/admin/logs" element={<LogsPage />} />

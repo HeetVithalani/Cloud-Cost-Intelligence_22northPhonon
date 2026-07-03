@@ -36,7 +36,6 @@ const NAV_SECTIONS = [
     label: 'Advanced Costing',
     items: [
       { to: '/role-costing', icon: UserCheck, label: 'Role Based Costing' },
-      { to: '/user-costing', icon: Users, label: 'User Based Costing' },
       { to: '/api-costing', icon: Code2, label: 'API Based Costing' },
     ],
   },

@@ -21,7 +21,6 @@ const PAGE_TITLES = {
   '/infrastructure': 'Infrastructure Analysis',
   '/savings': 'Savings Recommendations',
   '/role-costing': 'Role Based Costing',
-  '/user-costing': 'User Based Costing',
   '/api-costing': 'API Based Costing',
   '/admin/users': 'User Management',
   '/admin/logs': 'Activity Logs',
