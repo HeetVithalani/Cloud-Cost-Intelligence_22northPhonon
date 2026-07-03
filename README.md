@@ -239,7 +239,3 @@ During the development of CostForge, several AI-powered assistants were utilized
 * **Claude:** Utilized primarily for generating complex technical documentation, refining architectural designs, and brainstorming edge cases in data modeling.
 * **ChatGPT:** Used for quick syntax lookups, debugging complex regex patterns, and drafting initial project management structures.
 * **Antigravity:** Used as an autonomous coding agent to rapidly audit, refactor, and generate robust end-to-end documentation across the repository.
-
-
-## License
-MIT
